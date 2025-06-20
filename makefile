@@ -2,7 +2,7 @@
 
 # Compilatore e flag
 CC = gcc
-CFLAGS = -Wall -g -std=c99 -D_GNU_SOURCE
+CFLAGS = -Wall -g -std=c99 -D_GNU_SOURCE -Wno-unused-function
 LDFLAGS = -lm
 
 # File di input

@@ -468,7 +468,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "scanner.flex"
 #line 2 "scanner.flex"
-#define _GNU_SOURCE
+// #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
