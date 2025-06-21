@@ -3,11 +3,11 @@
 #include "sym_tables.h"
 
 int yyparse(void);
-void dump(void);     // funzione di dump delle HT
+void print_tours(void);     
 
 int main(void) {
     if (yyparse() == 0) {
-        dump();
+        print_tours();
     } else {
         fprintf(stderr, "Parsing fallito.\n");
         free_city_ht();

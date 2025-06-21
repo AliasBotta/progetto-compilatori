@@ -12,7 +12,6 @@ tour* TOUR_HTABLE[TOUR_HTABLE_SIZE] = {NULL};    // hashtable per i tour, inizia
 // ** FUNZIONI DI HASHING **
 int get_city_hash(char city_id[]) {
     // genera hash a partire da 3 lettere maiuscole dell'id città
-    // algoritmo migliorato per ridurre collisioni
     int hash = 0;
     for (int i = 0; i < CITY_ID_SIZE; ++i) {
         hash = (hash * 31 + city_id[i]) % CITY_HTABLE_SIZE;
@@ -209,12 +208,12 @@ char* get_city_name(char city_id[]) {
 }
 
 // ** PRINTF ERRORE SEMANTICO **
-void semantic_error(const char* message, ...) {
-    fprintf(stderr, "ERRORE SEMANTICO: ");
-    va_list args;
-    va_start(args, message);
-    vfprintf(stderr, message, args);
-    va_end(args);
+void semantic_error(const char* message, ...) { // ... sono in parametri variabili
+    fprintf(stderr, "ERRORE SEMANTICO: "); // printf specifico per scrivere su uno stream specifico
+    va_list args; // lista argomenti variabili
+    va_start(args, message); // inizializza la lista args
+    vfprintf(stderr, message, args); // fprintf con la lsita args
+    va_end(args); // pulisce la lista
     fprintf(stderr, "\n");
 
     free_city_ht();
@@ -247,39 +246,41 @@ void free_tour_ht() {
     }
 }
 
-// ** DUMP DEI DATI IN OUTPUT **
-void dump() {
-    for (int i = 0; i < TOUR_HTABLE_SIZE; ++i) {
-        tour* t = TOUR_HTABLE[i];
-        if (t != NULL) {
-            // stampa nome tour
-            printf("%s: ", t->name);
+// Visualizzazione dei percorsi turistici registrati
+void print_tours() {
+    for (int idx = 0; idx < TOUR_HTABLE_SIZE; ++idx) {
+        tour* current_tour = TOUR_HTABLE[idx];
+        if (current_tour != NULL) {
+            // Visualizza identificativo percorso
+            printf("%s: ", current_tour->name);
             
-            // stampa tutte le tappe separate da ->
-            for (int j = 0; j < t->stage_count; j++) {
-                char* city_name = get_city_name(t->stages[j]);
-                if (city_name == NULL) {
-                    semantic_error("Nome città non trovato per la tappa '%s' del tour '%s'", t->stages[j], t->id);
+            // Elabora e mostra l'itinerario completo
+            for (int stop = 0; stop < current_tour->stage_count; stop++) {
+                char* location_name = get_city_name(current_tour->stages[stop]);
+                if (location_name == NULL) {
+                    semantic_error("Nome città non trovato per la tappa '%s' del tour '%s'", 
+                                 current_tour->stages[stop], current_tour->id);
                 }
                 
-                // stampa il nome della città rimuovendo le virgolette se presenti
-                if (city_name[0] == '"' && city_name[strlen(city_name)-1] == '"') {
-                    // stampa senza le virgolette iniziale e finale
-                    int len = strlen(city_name);
-                    for (int k = 1; k < len-1; k++) {
-                        printf("%c", city_name[k]);
+                // Gestione delle virgolette nel nome località
+                if (location_name[0] == '"' && location_name[strlen(location_name)-1] == '"') {
+                    // Rimuove delimitatori di stringa
+                    int name_length = strlen(location_name);
+                    for (int pos = 1; pos < name_length-1; pos++) {
+                        printf("%c", location_name[pos]);
                     }
                 } else {
-                    printf("%s", city_name);
+                    printf("%s", location_name);
                 }
                 
-                if (j < t->stage_count - 1) {
+                // Separatore tra destinazioni
+                if (stop < current_tour->stage_count - 1) {
                     printf(" -> ");
                 }
             }
             
-            // stampa costo totale
-            printf(" %.2f€\n", t->total_cost);
+            // Mostra prezzo complessivo
+            printf(" %.2f€\n", current_tour->total_cost);
         }
     }
 }

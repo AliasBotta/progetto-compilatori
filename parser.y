@@ -5,23 +5,22 @@
 #include <math.h>
 #include "sym_tables.h"
 
-// DICHIARAZIONE FUNZIONI DI FLEX
+// Dichiarazione delle funzioni del lexer (generato da Flex)
 int yylex(void);
 void yyerror(const char *s);
 %}
 
+// Il parser genera errori in modalità verbosi
 %define parse.error verbose
 
-// TOKEN UNION PER GESTIRE LA TIPIZZAZIONE
+// Token union per gestire la tipizzazione
 %union {
     char* string_type;
     float float_type;
-    int integer_type;
 }
 
 %token <string_type> CITY_ID CITY_NAME TOUR_NAME TOUR_ID
 %token <float_type> FLOAT_VALUE
-%token <integer_type> INTEGER_VALUE
 %token OPEN_ROUNDED CLOSED_ROUNDED COMMA TOUR_SEPARATOR END_SECTION
 %start start
 

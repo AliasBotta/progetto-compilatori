@@ -6,7 +6,7 @@
 
 // ** COSTANTI **  
 #define CITY_ID_SIZE 3              // numero di caratteri alfabetici maiuscoli che compongono l'id della città
-#define CITY_HTABLE_SIZE 631        // grandezza definita dal valore massimo prodotto d'hashing dell'id + 1 
+#define CITY_HTABLE_SIZE 1000       
 #define TOUR_ID_SIZE 3              // lettera maiuscola + 2 cifre
 #define TOUR_HTABLE_SIZE 2600       // 26 lettere * 100 combinazioni cifre = 2600 tour possibili
 #define MAX_STAGES 100              // numero massimo di tappe per tour
@@ -96,10 +96,10 @@ char* get_city_name(char city_id[]);
 void semantic_error(const char* message, ...);
 
 /*
-* Funzione di dump di dati che genera un output nel formato richiesto:
+* Funzione che genera un output nel formato richiesto:
 * Nome tour: città1 -> città2 -> ... -> cittàN costoTotale€
 */
-void dump();
+void print_tours();
 
 /*
 * Funzioni per la corretta gestione della memoria a 

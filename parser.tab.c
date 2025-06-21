@@ -75,7 +75,7 @@
 #include <math.h>
 #include "sym_tables.h"
 
-// DICHIARAZIONE FUNZIONI DI FLEX
+// Dichiarazione delle funzioni del lexer (generato da Flex)
 int yylex(void);
 void yyerror(const char *s);
 
@@ -115,20 +115,19 @@ enum yysymbol_kind_t
   YYSYMBOL_TOUR_NAME = 5,                  /* TOUR_NAME  */
   YYSYMBOL_TOUR_ID = 6,                    /* TOUR_ID  */
   YYSYMBOL_FLOAT_VALUE = 7,                /* FLOAT_VALUE  */
-  YYSYMBOL_INTEGER_VALUE = 8,              /* INTEGER_VALUE  */
-  YYSYMBOL_OPEN_ROUNDED = 9,               /* OPEN_ROUNDED  */
-  YYSYMBOL_CLOSED_ROUNDED = 10,            /* CLOSED_ROUNDED  */
-  YYSYMBOL_COMMA = 11,                     /* COMMA  */
-  YYSYMBOL_TOUR_SEPARATOR = 12,            /* TOUR_SEPARATOR  */
-  YYSYMBOL_END_SECTION = 13,               /* END_SECTION  */
-  YYSYMBOL_YYACCEPT = 14,                  /* $accept  */
-  YYSYMBOL_start = 15,                     /* start  */
-  YYSYMBOL_p1 = 16,                        /* p1  */
-  YYSYMBOL_city_definition = 17,           /* city_definition  */
-  YYSYMBOL_p2 = 18,                        /* p2  */
-  YYSYMBOL_tour_definition = 19,           /* tour_definition  */
-  YYSYMBOL_p3 = 20,                        /* p3  */
-  YYSYMBOL_stage_definition = 21           /* stage_definition  */
+  YYSYMBOL_OPEN_ROUNDED = 8,               /* OPEN_ROUNDED  */
+  YYSYMBOL_CLOSED_ROUNDED = 9,             /* CLOSED_ROUNDED  */
+  YYSYMBOL_COMMA = 10,                     /* COMMA  */
+  YYSYMBOL_TOUR_SEPARATOR = 11,            /* TOUR_SEPARATOR  */
+  YYSYMBOL_END_SECTION = 12,               /* END_SECTION  */
+  YYSYMBOL_YYACCEPT = 13,                  /* $accept  */
+  YYSYMBOL_start = 14,                     /* start  */
+  YYSYMBOL_p1 = 15,                        /* p1  */
+  YYSYMBOL_city_definition = 16,           /* city_definition  */
+  YYSYMBOL_p2 = 17,                        /* p2  */
+  YYSYMBOL_tour_definition = 18,           /* tour_definition  */
+  YYSYMBOL_p3 = 19,                        /* p3  */
+  YYSYMBOL_stage_definition = 20           /* stage_definition  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -456,10 +455,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   26
+#define YYLAST   21
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  14
+#define YYNTOKENS  13
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
@@ -468,7 +467,7 @@ union yyalloc
 #define YYNSTATES  27
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   268
+#define YYMAXUTOK   267
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -508,15 +507,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13
+       5,     6,     7,     8,     9,    10,    11,    12
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    31,    31,    35,    36,    39,    49,    50,    53,    61,
-      62,    65
+       0,    30,    30,    34,    35,    38,    48,    49,    52,    60,
+      61,    64
 };
 #endif
 
@@ -533,10 +532,9 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "CITY_ID", "CITY_NAME",
-  "TOUR_NAME", "TOUR_ID", "FLOAT_VALUE", "INTEGER_VALUE", "OPEN_ROUNDED",
-  "CLOSED_ROUNDED", "COMMA", "TOUR_SEPARATOR", "END_SECTION", "$accept",
-  "start", "p1", "city_definition", "p2", "tour_definition", "p3",
-  "stage_definition", YY_NULLPTR
+  "TOUR_NAME", "TOUR_ID", "FLOAT_VALUE", "OPEN_ROUNDED", "CLOSED_ROUNDED",
+  "COMMA", "TOUR_SEPARATOR", "END_SECTION", "$accept", "start", "p1",
+  "city_definition", "p2", "tour_definition", "p3", "stage_definition", YY_NULLPTR
 };
 
 static const char *
@@ -546,7 +544,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-12)
+#define YYPACT_NINF (-11)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -560,9 +558,9 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       0,     1,     4,    -3,   -12,    -2,   -12,     2,   -12,    -1,
-       6,   -11,   -12,     3,     9,     2,     7,     8,   -12,   -12,
-      13,     7,   -12,    10,   -12,   -12,   -12
+       0,     1,     4,    -3,   -11,    -2,   -11,     2,   -11,     3,
+       6,   -10,   -11,     5,     9,     2,     7,    10,   -11,   -11,
+      11,     7,   -11,    12,   -11,   -11,   -11
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -578,7 +576,7 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -12,   -12,   -12,    14,   -12,    -6,   -12,     5
+     -11,   -11,   -11,    13,   -11,    -8,   -11,    -1
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -592,32 +590,32 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,    15,    16,     1,     6,     5,    13,     9,    10,    19,
-       7,    14,    18,    20,    17,    23,    24,     8,     0,     0,
-      26,     0,     0,     0,     0,     0,    25
+       1,    15,    16,     1,     6,     5,     9,    19,    10,     7,
+      13,    14,    18,    20,    24,    17,     8,    23,     0,     0,
+      25,    26
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,    12,    13,     3,     0,     4,     7,     9,     6,    15,
-      13,     5,     3,     6,    11,     7,     3,     3,    -1,    -1,
-      10,    -1,    -1,    -1,    -1,    -1,    21
+       3,    11,    12,     3,     0,     4,     8,    15,     6,    12,
+       7,     5,     3,     6,     3,    10,     3,     7,    -1,    -1,
+      21,     9
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,    15,    16,    17,     4,     0,    13,    17,     9,
-       6,    18,    19,     7,     5,    12,    13,    11,     3,    19,
-       6,    20,    21,     7,     3,    21,    10
+       0,     3,    14,    15,    16,     4,     0,    12,    16,     8,
+       6,    17,    18,     7,     5,    11,    12,    10,     3,    18,
+       6,    19,    20,     7,     3,    20,     9
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    14,    15,    16,    16,    17,    18,    18,    19,    20,
-      20,    21
+       0,    13,    14,    15,    15,    16,    17,    17,    18,    19,
+      19,    20
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1358,7 +1356,7 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* city_definition: CITY_ID CITY_NAME OPEN_ROUNDED FLOAT_VALUE COMMA FLOAT_VALUE CLOSED_ROUNDED  */
-#line 39 "parser.y"
+#line 38 "parser.y"
                                                                                              { 
     double coordinates[2];
     coordinates[0] = (yyvsp[-3].float_type);
@@ -1367,32 +1365,32 @@ yyreduce:
     free((yyvsp[-6].string_type));  // libera memoria allocata da my_strdup
     free((yyvsp[-5].string_type));
 }
-#line 1371 "parser.tab.c"
+#line 1369 "parser.tab.c"
     break;
 
   case 8: /* tour_definition: TOUR_ID TOUR_NAME CITY_ID  */
-#line 53 "parser.y"
+#line 52 "parser.y"
                                            {
     add_tour((yyvsp[-2].string_type), (yyvsp[-1].string_type), (yyvsp[0].string_type));
     free((yyvsp[-2].string_type));  // libera memoria allocata da my_strdup
     free((yyvsp[-1].string_type));
     free((yyvsp[0].string_type));
 }
-#line 1382 "parser.tab.c"
+#line 1380 "parser.tab.c"
     break;
 
   case 11: /* stage_definition: TOUR_ID CITY_ID  */
-#line 65 "parser.y"
+#line 64 "parser.y"
                                   {
     update_tour((yyvsp[-1].string_type), (yyvsp[0].string_type));
     free((yyvsp[-1].string_type));  // libera memoria allocata da my_strdup
     free((yyvsp[0].string_type));
 }
-#line 1392 "parser.tab.c"
+#line 1390 "parser.tab.c"
     break;
 
 
-#line 1396 "parser.tab.c"
+#line 1394 "parser.tab.c"
 
       default: break;
     }
@@ -1616,7 +1614,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 71 "parser.y"
+#line 70 "parser.y"
 
 
 // GESTIONE ERRORE SINTATTICO

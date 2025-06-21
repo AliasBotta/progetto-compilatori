@@ -59,12 +59,11 @@ extern int yydebug;
     TOUR_NAME = 260,               /* TOUR_NAME  */
     TOUR_ID = 261,                 /* TOUR_ID  */
     FLOAT_VALUE = 262,             /* FLOAT_VALUE  */
-    INTEGER_VALUE = 263,           /* INTEGER_VALUE  */
-    OPEN_ROUNDED = 264,            /* OPEN_ROUNDED  */
-    CLOSED_ROUNDED = 265,          /* CLOSED_ROUNDED  */
-    COMMA = 266,                   /* COMMA  */
-    TOUR_SEPARATOR = 267,          /* TOUR_SEPARATOR  */
-    END_SECTION = 268              /* END_SECTION  */
+    OPEN_ROUNDED = 263,            /* OPEN_ROUNDED  */
+    CLOSED_ROUNDED = 264,          /* CLOSED_ROUNDED  */
+    COMMA = 265,                   /* COMMA  */
+    TOUR_SEPARATOR = 266,          /* TOUR_SEPARATOR  */
+    END_SECTION = 267              /* END_SECTION  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -73,13 +72,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 16 "parser.y"
+#line 17 "parser.y"
 
     char* string_type;
     float float_type;
-    int integer_type;
 
-#line 83 "parser.tab.h"
+#line 81 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

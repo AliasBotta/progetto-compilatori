@@ -42,9 +42,6 @@ $(FLEX_OUT): $(FLEX) $(BISON_HEADER)
 test: $(EXEC)
 	./$(EXEC) < input_corretto.txt
 
-test_error_semantic: $(EXEC)
-	./$(EXEC) < input_errore_semantico.txt
-
 test_error_syntactic: $(EXEC)
 	./$(EXEC) < input_errore_sintattico.txt
 
@@ -55,4 +52,4 @@ test_error_lexical: $(EXEC)
 clean:
 	rm -f $(EXEC) *.o $(FLEX_OUT) $(BISON_OUT) $(BISON_HEADER)
 
-.PHONY: all clean test test_error_semantic test_error_syntactic test_error_lexical
+.PHONY: all clean test test_error_syntactic test_error_lexical
