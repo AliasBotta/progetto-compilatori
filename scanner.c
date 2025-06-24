@@ -471,7 +471,6 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "scanner.flex"
 #line 2 "scanner.flex"
-// #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -479,7 +478,6 @@ char *yytext;
 
 #define MAX_LINE_LENGTH 1024
 
-/* Implementazione custom di strdup per compatibilità con lo standard C99 */
 char* my_strdup(const char* s) {
     if (s == NULL) return NULL;
     char* dup = malloc(strlen(s) + 1);
@@ -489,17 +487,20 @@ char* my_strdup(const char* s) {
     return dup;
 }
 
-int line_number = 1; // Variabile che traccia la posizione degli errori a fine di debug. Flex non fornisce questa info automaticamente per caratteri non riconosciuti
-char unknown_sequence[MAX_LINE_LENGTH] = ""; // Buffer per le sequenze non riconosciute
-int sequence = 0; // indica dove inizia lo spazio libero di unknown_sequence
+// Variabili per tracking delle posizioni
+int line_number = 1;
+int column_number = 1;
+char unknown_sequence[MAX_LINE_LENGTH] = "";
+int sequence = 0;
 
 void lexical_error(const char *msg);
-#line 497 "scanner.c"
-/* Dato che dobbiamo gestire 1 solo file, possiamo disabilitare la funzione yywrap() in questo modo */
-/* Start condition eclusiva per gestire i momenti in cui il parser riconosce errori */
+void update_location();
 
-/* Regex */
-#line 502 "scanner.c"
+// Macro per aggiornare yylloc
+#define YY_USER_ACTION update_location();
+#line 501 "scanner.c"
+
+#line 503 "scanner.c"
 
 #define INITIAL 0
 #define ERROR_STATE 1
@@ -720,7 +721,7 @@ YY_DECL
 #line 40 "scanner.flex"
 
 
-#line 723 "scanner.c"
+#line 724 "scanner.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -845,7 +846,7 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 73 "scanner.flex"
-{ /* ignora spazi, tabulazioni etc. */ }
+{ /* ignora spazi, tabulazioni */ }
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
@@ -853,11 +854,12 @@ YY_RULE_SETUP
 #line 75 "scanner.flex"
 {
     line_number++;
+    column_number = 1;
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 79 "scanner.flex"
+#line 80 "scanner.flex"
 {
     BEGIN(ERROR_STATE);
     sequence = 0;
@@ -868,17 +870,18 @@ YY_RULE_SETUP
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 86 "scanner.flex"
+#line 87 "scanner.flex"
 { 
         unknown_sequence[sequence] = '\0'; 
         char msg[2000];
-        snprintf(msg, sizeof(msg), "ERRORE LESSICALE - Riga %d\nSequenza non riconosciuta: %s", line_number, unknown_sequence);
+        snprintf(msg, sizeof(msg), "ERRORE LESSICALE - Riga %d, Colonna %d\nSequenza non riconosciuta: %s", 
+                line_number, column_number, unknown_sequence);
         lexical_error(msg);
     }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 92 "scanner.flex"
+#line 94 "scanner.flex"
 {
         if (sequence < MAX_LINE_LENGTH - 1) {
             unknown_sequence[sequence++] = yytext[0];
@@ -888,10 +891,10 @@ YY_RULE_SETUP
 
 case 16:
 YY_RULE_SETUP
-#line 99 "scanner.flex"
+#line 101 "scanner.flex"
 ECHO;
 	YY_BREAK
-#line 894 "scanner.c"
+#line 897 "scanner.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ERROR_STATE):
 	yyterminate();
@@ -1897,8 +1900,15 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 99 "scanner.flex"
+#line 101 "scanner.flex"
 
+
+void update_location() {
+    yylloc.first_line = yylloc.last_line = line_number;
+    yylloc.first_column = column_number;
+    column_number += yyleng;
+    yylloc.last_column = column_number - 1;
+}
 
 void lexical_error(const char *msg) {
     fprintf(stderr, "%s\n", msg);

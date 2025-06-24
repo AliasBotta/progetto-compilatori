@@ -1,5 +1,4 @@
 %{
-// #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,7 +6,6 @@
 
 #define MAX_LINE_LENGTH 1024
 
-/* Implementazione custom di strdup per compatibilità con lo standard C99 */
 char* my_strdup(const char* s) {
     if (s == NULL) return NULL;
     char* dup = malloc(strlen(s) + 1);
@@ -17,20 +15,22 @@ char* my_strdup(const char* s) {
     return dup;
 }
 
-int line_number = 1; // Variabile che traccia la posizione degli errori a fine di debug. Flex non fornisce questa info automaticamente per caratteri non riconosciuti
-char unknown_sequence[MAX_LINE_LENGTH] = ""; // Buffer per le sequenze non riconosciute
-int sequence = 0; // indica dove inizia lo spazio libero di unknown_sequence
+// Variabili per tracking delle posizioni
+int line_number = 1;
+int column_number = 1;
+char unknown_sequence[MAX_LINE_LENGTH] = "";
+int sequence = 0;
 
 void lexical_error(const char *msg);
+void update_location();
+
+// Macro per aggiornare yylloc
+#define YY_USER_ACTION update_location();
 %}
 
-/* Dato che dobbiamo gestire 1 solo file, possiamo disabilitare la funzione yywrap() in questo modo */
 %option noyywrap 
-
-/* Start condition eclusiva per gestire i momenti in cui il parser riconosce errori */
 %x ERROR_STATE
 
-/* Regex */
 CITY_ID_REGEX       [A-Z]{3}
 CITY_NAME_REGEX     \"[A-Za-z]+\" 
 FLOAT_REGEX         [+-]?(0|[1-9][0-9]*)\.[0-9]+
@@ -70,10 +70,11 @@ TOUR_ID_REGEX       [A-Z][0-9]{2}
     return TOUR_NAME;
 }
 
-[ \t\r]+                 { /* ignora spazi, tabulazioni etc. */ }
+[ \t\r]+                 { /* ignora spazi, tabulazioni */ }
 
 \n {
     line_number++;
+    column_number = 1;
 }
 
 . {
@@ -86,7 +87,8 @@ TOUR_ID_REGEX       [A-Z][0-9]{2}
     [ \n] { 
         unknown_sequence[sequence] = '\0'; 
         char msg[2000];
-        snprintf(msg, sizeof(msg), "ERRORE LESSICALE - Riga %d\nSequenza non riconosciuta: %s", line_number, unknown_sequence);
+        snprintf(msg, sizeof(msg), "ERRORE LESSICALE - Riga %d, Colonna %d\nSequenza non riconosciuta: %s", 
+                line_number, column_number, unknown_sequence);
         lexical_error(msg);
     }
     . {
@@ -97,6 +99,13 @@ TOUR_ID_REGEX       [A-Z][0-9]{2}
 }
 
 %%
+
+void update_location() {
+    yylloc.first_line = yylloc.last_line = line_number;
+    yylloc.first_column = column_number;
+    column_number += yyleng;
+    yylloc.last_column = column_number - 1;
+}
 
 void lexical_error(const char *msg) {
     fprintf(stderr, "%s\n", msg);

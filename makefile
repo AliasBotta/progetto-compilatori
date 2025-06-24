@@ -40,13 +40,13 @@ $(FLEX_OUT): $(FLEX) $(BISON_HEADER)
 
 # Test con file di esempio
 test: $(EXEC)
-	./$(EXEC) < input_corretto.txt
+	./$(EXEC) < test/input_corretto.txt
 
 test_error_syntactic: $(EXEC)
-	./$(EXEC) < input_errore_sintattico.txt
+	./$(EXEC) < test/input_errore_sintattico.txt
 
 test_error_lexical: $(EXEC)
-	./$(EXEC) < input_errore_lessicale.txt
+	./$(EXEC) < test/input_errore_lessicale.txt
 
 # Pulizia dei file generati
 clean:
