@@ -30,9 +30,34 @@ F56 RMA
 
 ## Formato Output
 
+Il programma genera l'output in un file specificato (default: `output.txt`):
+
 ```
 Costa Mediterranea: Palermo -> Napoli 600.00€
 Italia: Palermo -> Roma 450.00€
+```
+
+## Uso del Programma
+
+### Sintassi Base
+```bash
+./tour_analyzer [-o file_output]
+```
+
+### Parametri
+- `-o file_output`: Specifica il file di output (default: `output.txt`)
+- `-h, --help`: Mostra il messaggio di aiuto
+
+### Esempi d'Uso
+```bash
+# Output nel file di default (output.txt)
+./tour_analyzer < input.txt
+
+# Output in un file specifico
+./tour_analyzer -o risultato.txt < input.txt
+
+# Mostra help
+./tour_analyzer --help
 ```
 
 ## Struttura del Progetto
@@ -49,35 +74,88 @@ Italia: Palermo -> Roma 450.00€
 - **Formula distanza**: `√((x₁-x₂)² + (y₁-y₂)²)`
 
 ### Gestione Errori
-- **Errori Lessicali**: Caratteri o sequenze non riconosciute
-- **Errori Sintattici**: Violazioni della grammatica
-- **Errori Semantici**: Tour duplicati, città inesistenti, riferimenti non validi
+- **Errori Lessicali**: Caratteri o sequenze non riconosciute (output su stderr)
+- **Errori Sintattici**: Violazioni della grammatica (output su stderr)
+- **Errori Semantici**: Tour duplicati, città inesistenti, riferimenti non validi (output su stderr)
 
 ## Compilazione ed Esecuzione
+
+### Compilazione
+```bash
+make
+```
+
+### Test Predefiniti
+
+#### Test con input corretto
+```bash
+make test
+# Genera output in test_output.txt e mostra il contenuto
+```
+
+#### Test con errori
+```bash
+# Test errore sintattico
+make test_error_syntactic
+
+# Test errore lessicale  
+make test_error_lexical
+```
+
+#### Test personalizzato
+```bash
+make test_custom INPUT=mio_input.txt OUTPUT=mio_output.txt
+```
+
+#### Test verboso (mostra anche l'output)
+```bash
+make test_verbose
+```
+
+### Esempi Pratici
 
 ```bash
 # Compilazione
 make
 
-# Esecuzione con input corretto
-make test
+# Test base con visualizzazione output
+make test_verbose
 
-# Test errori
-make test_error_semantic
-make test_error_syntactic  
-make test_error_lexical
+# Test personalizzato
+make test_custom INPUT=test/input_corretto.txt OUTPUT=risultati_tour.txt
 
-# Pulizia
-make clean
+# Esecuzione diretta
+./tour_analyzer -o analisi_tour.txt < test/input_corretto.txt
+
+# Verifica dell'output generato
+cat analisi_tour.txt
 ```
+
+### Pulizia
+
+```bash
+# Pulizia file compilazione
+make clean
+
+# Pulizia completa (include file di output)
+make cleanall
+```
+
+## Output e Gestione File
+
+- **Output principale**: Scritto nel file specificato con `-o` (default: `output.txt`)
+- **Messaggi di errore**: Sempre su terminale (stderr)
+- **Messaggi di stato**: Su terminale (stderr), es. "Parsing completato con successo"
 
 ## Miglioramenti Implementati
 
-1. **Regex migliorate** per float e interi (eliminando problemi di riconoscimento)
-2. **Gestione memoria** ottimizzata con free() appropriati
-3. **Funzione di hash perfetta** per i tour (zero collisioni)
-4. **Validazione robusta** degli input semantici
-5. **Gestione errori completa** con messaggi informativi
+1. **Output su file**: Separazione tra risultati (su file) e messaggi di sistema (su terminale)
+2. **Parametri riga di comando**: Interfaccia simile a gcc con `-o`
+3. **Regex migliorate** per float e interi (eliminando problemi di riconoscimento)
+4. **Gestione memoria** ottimizzata con free() appropriati
+5. **Funzione di hash perfetta** per i tour (zero collisioni)
+6. **Validazione robusta** degli input semantici
+7. **Gestione errori completa** con messaggi informativi
 
 ## Argomenti Teorici Correlati
 
@@ -87,10 +165,14 @@ make clean
 - Symbol table e funzioni di hash
 - Gestione errori nei compilatori
 - Allocazione dinamica della memoria
+- Interfacce utente da riga di comando
 
 ## File di Test
 
-- `input_corretto.txt`: Input valido per test funzionale
-- `input_errore_semantico.txt`: Tour duplicato (errore semantico)
-- `input_errore_sintattico.txt`: Parentesi mancante (errore sintattico)
-- `input_errore_lessicale.txt`: Carattere '@' non valido (errore lessicale)
+- `test/input_corretto.txt`: Input valido per test funzionale
+- `test/input_errore_sintattico.txt`: Parentesi mancante (errore sintattico)
+- `test/input_errore_lessicale.txt`: Carattere '@' non valido (errore lessicale)
+
+## Note Tecniche
+
+Il programma legge sempre da stdin e scrive l'output nel file specificato. Gli errori e i messaggi di stato sono sempre visualizzati su terminale per permettere un debug efficace anche quando l'output è rediretto su file.

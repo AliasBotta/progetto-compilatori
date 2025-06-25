@@ -247,12 +247,12 @@ void free_tour_ht() {
 }
 
 // Visualizzazione dei percorsi turistici registrati
-void print_tours() {
+void print_tours(FILE *output_file) {
     for (int idx = 0; idx < TOUR_HTABLE_SIZE; ++idx) {
         tour* current_tour = TOUR_HTABLE[idx];
         if (current_tour != NULL) {
             // Visualizza identificativo percorso
-            printf("%s: ", current_tour->name);
+            fprintf(output_file, "%s: ", current_tour->name);
             
             // Elabora e mostra l'itinerario completo
             for (int stop = 0; stop < current_tour->stage_count; stop++) {
@@ -267,20 +267,20 @@ void print_tours() {
                     // Rimuove delimitatori di stringa
                     int name_length = strlen(location_name);
                     for (int pos = 1; pos < name_length-1; pos++) {
-                        printf("%c", location_name[pos]);
+                        fprintf(output_file, "%c", location_name[pos]);
                     }
                 } else {
-                    printf("%s", location_name);
+                    fprintf(output_file, "%s", location_name);
                 }
                 
                 // Separatore tra destinazioni
                 if (stop < current_tour->stage_count - 1) {
-                    printf(" -> ");
+                    fprintf(output_file, " -> ");
                 }
             }
             
             // Mostra prezzo complessivo
-            printf(" %.2f€\n", current_tour->total_cost);
+            fprintf(output_file, " %.2f€\n", current_tour->total_cost);
         }
     }
 }
