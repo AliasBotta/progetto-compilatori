@@ -32,7 +32,7 @@ int get_tour_hash(char tour_id[]) {
     return letter_value * 100 + number_value;
 }
 
-// ** INSERIMENTO DI UNA CITTÀ NELLA HASHTABLE **
+// ** INSERIMENTO DI UNA CITTÀ NELLA HASHTABLE ** --> remind, stiamo utilizzando la tecnica con chaining
 void add_city(char city_id[], char* city_name, double coords[]) {
     int hash = get_city_hash(city_id);
     
@@ -52,10 +52,10 @@ void add_city(char city_id[], char* city_name, double coords[]) {
         exit(EXIT_FAILURE);
     }
     
-    strncpy(new_city->id, city_id, CITY_ID_SIZE);
+    strncpy(new_city->id, city_id, CITY_ID_SIZE); // non necessitiamo di malloc in quanto l'ID è istanziato staticamente (ha dmensione fissa 3)
     new_city->id[CITY_ID_SIZE] = '\0';
     
-    new_city->name = malloc(strlen(city_name) + 1);
+    new_city->name = malloc(strlen(city_name) + 1); // qui invece necessitiamo di malloc in quanto il nome è variabile
     if (new_city->name == NULL) {
         fprintf(stderr, "Errore: malloc fallita per city_name\n");
         exit(EXIT_FAILURE);
@@ -64,7 +64,7 @@ void add_city(char city_id[], char* city_name, double coords[]) {
     
     new_city->xy_pos[0] = coords[0];
     new_city->xy_pos[1] = coords[1];
-    new_city->next = CITY_HTABLE[hash];
+    new_city->next = CITY_HTABLE[hash]; // inserimento in testa alla chain
     CITY_HTABLE[hash] = new_city;
 }
 

@@ -96,10 +96,10 @@ char* get_city_name(char city_id[]);
 void semantic_error(const char* message, ...);
 
 /*
-* Funzione che genera un output nel formato richiesto:
+* Funzione che genera un output nel formato richiesto e lo scrive nel file specificato:
 * Nome tour: città1 -> città2 -> ... -> cittàN costoTotale€
 */
-void print_tours();
+void print_tours(FILE *output_file);
 
 /*
 * Funzioni per la corretta gestione della memoria a 

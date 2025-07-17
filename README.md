@@ -147,26 +147,6 @@ make cleanall
 - **Messaggi di errore**: Sempre su terminale (stderr)
 - **Messaggi di stato**: Su terminale (stderr), es. "Parsing completato con successo"
 
-## Miglioramenti Implementati
-
-1. **Output su file**: Separazione tra risultati (su file) e messaggi di sistema (su terminale)
-2. **Parametri riga di comando**: Interfaccia simile a gcc con `-o`
-3. **Regex migliorate** per float e interi (eliminando problemi di riconoscimento)
-4. **Gestione memoria** ottimizzata con free() appropriati
-5. **Funzione di hash perfetta** per i tour (zero collisioni)
-6. **Validazione robusta** degli input semantici
-7. **Gestione errori completa** con messaggi informativi
-
-## Argomenti Teorici Correlati
-
-- Analisi lessicale e regex
-- Grammatiche context-free e derivazioni
-- Parser LR/LALR e shift-reduce
-- Symbol table e funzioni di hash
-- Gestione errori nei compilatori
-- Allocazione dinamica della memoria
-- Interfacce utente da riga di comando
-
 ## File di Test
 
 - `test/input_corretto.txt`: Input valido per test funzionale
